@@ -7,6 +7,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema CLASSifieds-Subtypes
 -- -----------------------------------------------------
+DROP SCHEMA IF EXISTS `CLASSifieds-Subtypes` ;
 
 -- -----------------------------------------------------
 -- Schema CLASSifieds-Subtypes
@@ -17,6 +18,8 @@ USE `CLASSifieds-Subtypes` ;
 -- -----------------------------------------------------
 -- Table `CLASSifieds-Subtypes`.`user`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `CLASSifieds-Subtypes`.`user` ;
+
 CREATE TABLE IF NOT EXISTS `CLASSifieds-Subtypes`.`user` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `first_name` VARCHAR(45) NOT NULL,
@@ -33,6 +36,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `CLASSifieds-Subtypes`.`category`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `CLASSifieds-Subtypes`.`category` ;
+
 CREATE TABLE IF NOT EXISTS `CLASSifieds-Subtypes`.`category` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `parent_category_id` INT UNSIGNED NULL,
@@ -51,6 +56,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `CLASSifieds-Subtypes`.`listing`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `CLASSifieds-Subtypes`.`listing` ;
+
 CREATE TABLE IF NOT EXISTS `CLASSifieds-Subtypes`.`listing` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` INT UNSIGNED NOT NULL,
@@ -77,6 +84,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `CLASSifieds-Subtypes`.`listing_image`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `CLASSifieds-Subtypes`.`listing_image` ;
+
 CREATE TABLE IF NOT EXISTS `CLASSifieds-Subtypes`.`listing_image` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `listing_id` INT UNSIGNED NOT NULL,
@@ -94,6 +103,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `CLASSifieds-Subtypes`.`watchlist`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `CLASSifieds-Subtypes`.`watchlist` ;
+
 CREATE TABLE IF NOT EXISTS `CLASSifieds-Subtypes`.`watchlist` (
   `user_id` INT UNSIGNED NOT NULL,
   `listing_id` INT UNSIGNED NOT NULL,
@@ -117,6 +128,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `CLASSifieds-Subtypes`.`thread`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `CLASSifieds-Subtypes`.`thread` ;
+
 CREATE TABLE IF NOT EXISTS `CLASSifieds-Subtypes`.`thread` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `buyer_user_id` INT UNSIGNED NOT NULL,
@@ -142,6 +155,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `CLASSifieds-Subtypes`.`message`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `CLASSifieds-Subtypes`.`message` ;
+
 CREATE TABLE IF NOT EXISTS `CLASSifieds-Subtypes`.`message` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `sender_user_id` INT UNSIGNED NOT NULL,
@@ -167,6 +182,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `CLASSifieds-Subtypes`.`textbook_listing`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `CLASSifieds-Subtypes`.`textbook_listing` ;
+
 CREATE TABLE IF NOT EXISTS `CLASSifieds-Subtypes`.`textbook_listing` (
   `listing_id` INT UNSIGNED NOT NULL,
   `edition` VARCHAR(10) NULL,
@@ -185,6 +202,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `CLASSifieds-Subtypes`.`electronics_listing`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `CLASSifieds-Subtypes`.`electronics_listing` ;
+
 CREATE TABLE IF NOT EXISTS `CLASSifieds-Subtypes`.`electronics_listing` (
   `listing_id` INT UNSIGNED NOT NULL,
   `make` VARCHAR(50) NULL,
@@ -202,6 +221,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `CLASSifieds-Subtypes`.`clothing_listing`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `CLASSifieds-Subtypes`.`clothing_listing` ;
+
 CREATE TABLE IF NOT EXISTS `CLASSifieds-Subtypes`.`clothing_listing` (
   `listing_id` INT UNSIGNED NOT NULL,
   `size` VARCHAR(20) NULL,
@@ -218,6 +239,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `CLASSifieds-Subtypes`.`computer_listing`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `CLASSifieds-Subtypes`.`computer_listing` ;
+
 CREATE TABLE IF NOT EXISTS `CLASSifieds-Subtypes`.`computer_listing` (
   `listing_id` INT UNSIGNED NOT NULL,
   `processor` VARCHAR(50) NULL,
@@ -233,6 +256,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `CLASSifieds-Subtypes`.`storage_listing`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `CLASSifieds-Subtypes`.`storage_listing` ;
+
 CREATE TABLE IF NOT EXISTS `CLASSifieds-Subtypes`.`storage_listing` (
   `listing_id` INT UNSIGNED NOT NULL,
   `space` VARCHAR(50) NULL,
@@ -248,6 +273,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `CLASSifieds-Subtypes`.`phone_listing`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `CLASSifieds-Subtypes`.`phone_listing` ;
+
 CREATE TABLE IF NOT EXISTS `CLASSifieds-Subtypes`.`phone_listing` (
   `listing_id` INT UNSIGNED NOT NULL,
   `screen_size` VARCHAR(50) NULL,
@@ -263,6 +290,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `CLASSifieds-Subtypes`.`usb_listing`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `CLASSifieds-Subtypes`.`usb_listing` ;
+
 CREATE TABLE IF NOT EXISTS `CLASSifieds-Subtypes`.`usb_listing` (
   `listing_id` INT UNSIGNED NOT NULL,
   `space` VARCHAR(50) NULL,
@@ -278,6 +307,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `CLASSifieds-Subtypes`.`drive_listing`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `CLASSifieds-Subtypes`.`drive_listing` ;
+
 CREATE TABLE IF NOT EXISTS `CLASSifieds-Subtypes`.`drive_listing` (
   `listing_id` INT UNSIGNED NOT NULL,
   `ssd_hdd` VARCHAR(50) NULL,

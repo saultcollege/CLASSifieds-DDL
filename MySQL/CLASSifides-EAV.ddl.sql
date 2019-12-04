@@ -7,6 +7,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema CLASSifieds-EAV
 -- -----------------------------------------------------
+DROP SCHEMA IF EXISTS `CLASSifieds-EAV` ;
 
 -- -----------------------------------------------------
 -- Schema CLASSifieds-EAV
@@ -17,6 +18,8 @@ USE `CLASSifieds-EAV` ;
 -- -----------------------------------------------------
 -- Table `CLASSifieds-EAV`.`user`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `CLASSifieds-EAV`.`user` ;
+
 CREATE TABLE IF NOT EXISTS `CLASSifieds-EAV`.`user` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `first_name` VARCHAR(45) NOT NULL,
@@ -33,6 +36,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `CLASSifieds-EAV`.`category`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `CLASSifieds-EAV`.`category` ;
+
 CREATE TABLE IF NOT EXISTS `CLASSifieds-EAV`.`category` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `parent_category_id` INT UNSIGNED NULL,
@@ -51,6 +56,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `CLASSifieds-EAV`.`listing`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `CLASSifieds-EAV`.`listing` ;
+
 CREATE TABLE IF NOT EXISTS `CLASSifieds-EAV`.`listing` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` INT UNSIGNED NOT NULL,
@@ -77,6 +84,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `CLASSifieds-EAV`.`listing_image`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `CLASSifieds-EAV`.`listing_image` ;
+
 CREATE TABLE IF NOT EXISTS `CLASSifieds-EAV`.`listing_image` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `listing_id` INT UNSIGNED NOT NULL,
@@ -94,6 +103,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `CLASSifieds-EAV`.`watchlist`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `CLASSifieds-EAV`.`watchlist` ;
+
 CREATE TABLE IF NOT EXISTS `CLASSifieds-EAV`.`watchlist` (
   `user_id` INT UNSIGNED NOT NULL,
   `listing_id` INT UNSIGNED NOT NULL,
@@ -117,6 +128,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `CLASSifieds-EAV`.`thread`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `CLASSifieds-EAV`.`thread` ;
+
 CREATE TABLE IF NOT EXISTS `CLASSifieds-EAV`.`thread` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `buyer_user_id` INT UNSIGNED NOT NULL,
@@ -142,6 +155,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `CLASSifieds-EAV`.`message`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `CLASSifieds-EAV`.`message` ;
+
 CREATE TABLE IF NOT EXISTS `CLASSifieds-EAV`.`message` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `sender_user_id` INT UNSIGNED NOT NULL,
@@ -167,6 +182,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `CLASSifieds-EAV`.`attribute`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `CLASSifieds-EAV`.`attribute` ;
+
 CREATE TABLE IF NOT EXISTS `CLASSifieds-EAV`.`attribute` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(50) NOT NULL,
@@ -177,9 +194,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `CLASSifieds-EAV`.`listing_attribute`
+-- Table `CLASSifieds-EAV`.`listing_attributes`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `CLASSifieds-EAV`.`listing_attribute` (
+DROP TABLE IF EXISTS `CLASSifieds-EAV`.`listing_attributes` ;
+
+CREATE TABLE IF NOT EXISTS `CLASSifieds-EAV`.`listing_attributes` (
   `listing_id` INT UNSIGNED NOT NULL,
   `attribute_id` INT UNSIGNED NOT NULL,
   `value` VARCHAR(1000) NOT NULL,
