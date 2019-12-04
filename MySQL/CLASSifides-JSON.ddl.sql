@@ -7,6 +7,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema CLASSifieds-JSON
 -- -----------------------------------------------------
+DROP SCHEMA IF EXISTS `CLASSifieds-JSON` ;
 
 -- -----------------------------------------------------
 -- Schema CLASSifieds-JSON
@@ -17,6 +18,8 @@ USE `CLASSifieds-JSON` ;
 -- -----------------------------------------------------
 -- Table `CLASSifieds-JSON`.`user`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `CLASSifieds-JSON`.`user` ;
+
 CREATE TABLE IF NOT EXISTS `CLASSifieds-JSON`.`user` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `first_name` VARCHAR(45) NOT NULL,
@@ -33,6 +36,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `CLASSifieds-JSON`.`category`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `CLASSifieds-JSON`.`category` ;
+
 CREATE TABLE IF NOT EXISTS `CLASSifieds-JSON`.`category` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `parent_category_id` INT UNSIGNED NULL,
@@ -51,6 +56,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `CLASSifieds-JSON`.`listing`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `CLASSifieds-JSON`.`listing` ;
+
 CREATE TABLE IF NOT EXISTS `CLASSifieds-JSON`.`listing` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` INT UNSIGNED NOT NULL,
@@ -78,6 +85,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `CLASSifieds-JSON`.`listing_image`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `CLASSifieds-JSON`.`listing_image` ;
+
 CREATE TABLE IF NOT EXISTS `CLASSifieds-JSON`.`listing_image` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `listing_id` INT UNSIGNED NOT NULL,
@@ -95,6 +104,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `CLASSifieds-JSON`.`watchlist`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `CLASSifieds-JSON`.`watchlist` ;
+
 CREATE TABLE IF NOT EXISTS `CLASSifieds-JSON`.`watchlist` (
   `user_id` INT UNSIGNED NOT NULL,
   `listing_id` INT UNSIGNED NOT NULL,
@@ -118,6 +129,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `CLASSifieds-JSON`.`thread`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `CLASSifieds-JSON`.`thread` ;
+
 CREATE TABLE IF NOT EXISTS `CLASSifieds-JSON`.`thread` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `buyer_user_id` INT UNSIGNED NOT NULL,
@@ -143,6 +156,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `CLASSifieds-JSON`.`message`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `CLASSifieds-JSON`.`message` ;
+
 CREATE TABLE IF NOT EXISTS `CLASSifieds-JSON`.`message` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `sender_user_id` INT UNSIGNED NOT NULL,
