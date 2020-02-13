@@ -12,7 +12,8 @@ GO
 -- drop any existing tables
 -- -----------------------------------------------------
 
-
+DROP TABLE IF EXISTS eav.listing_attributes ;
+DROP TABLE IF EXISTS eav.attribute ;
 
 DROP TABLE IF EXISTS eav.listing_image ;
 DROP TABLE IF EXISTS eav.watchlist ;
@@ -175,36 +176,32 @@ CREATE TABLE eav.message (
 -- -----------------------------------------------------
 -- Table CLASSifieds-EAV.attribute
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS CLASSifieds-EAV.attribute ;
 
-CREATE TABLE IF NOT EXISTS CLASSifieds-EAV.attribute (
-  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  name VARCHAR(50) NOT NULL,
+CREATE TABLE eav.attribute (
+  id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+  name VARCHAR(50) NOT NULL ,
   description VARCHAR(500) NOT NULL,
-  PRIMARY KEY (id),
-  UNIQUE INDEX name_UNIQUE (name ASC))
+  CONSTRAINT [name_UNIQUE] UNIQUE (name asc))
 
 
 
 -- -----------------------------------------------------
 -- Table CLASSifieds-EAV.listing_attributes
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS CLASSifieds-EAV.listing_attributes ;
 
-CREATE TABLE IF NOT EXISTS CLASSifieds-EAV.listing_attributes (
-  listing_id INT UNSIGNED NOT NULL,
-  attribute_id INT UNSIGNED NOT NULL,
+CREATE TABLE eav.listing_attributes (
+  listing_id INT NOT NULL,
+  attribute_id INT NOT NULL,
   value VARCHAR(1000) NOT NULL,
-  PRIMARY KEY (listing_id, attribute_id),
   INDEX fk_listing_attributes_attribute1_idx (attribute_id ASC),
   CONSTRAINT fk_listing_attributes_listing1
     FOREIGN KEY (listing_id)
-    REFERENCES CLASSifieds-EAV.listing (id)
+    REFERENCES eav.listing (id)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT fk_listing_attributes_attribute1
     FOREIGN KEY (attribute_id)
-    REFERENCES CLASSifieds-EAV.attribute (id)
+    REFERENCES eav.attribute (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 
