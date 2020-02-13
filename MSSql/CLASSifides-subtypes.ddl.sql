@@ -123,8 +123,8 @@ CREATE TABLE subtypes.thread (
   id INT NOT NULL  IDENTITY(1,1) PRIMARY KEY,
   buyer_user_id INT NOT NULL,
   listing_id INT NOT NULL,
-  buyer_last_read_timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  seller_last_read_timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  buyer_last_read_timestamp DATETIME NOT NULL DEFAULT GETUTCDATE(),
+  seller_last_read_timestamp DATETIME NOT NULL DEFAULT GETUTCDATE(), --can't have two timestamps, switched to datetime
   INDEX fk_thread_user1_idx (buyer_user_id ASC),
   INDEX fk_thread_listing1_idx (listing_id ASC),
   CONSTRAINT fk_thread_user1
