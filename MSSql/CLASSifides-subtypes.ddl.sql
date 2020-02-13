@@ -1,20 +1,40 @@
-
--- -----------------------------------------------------
--- Schema subtypes
--- -----------------------------------------------------
-DROP SCHEMA IF EXISTS subtypes
-
 -- -----------------------------------------------------
 -- Schema subtypes
 -- -----------------------------------------------------
 GO
-CREATE SCHEMA subtypes
+IF NOT EXISTS (SELECT name FROM sys.schemas WHERE name = N'subtypes')
+BEGIN
+	EXEC sp_executesql N'CREATE SCHEMA subtypes' --Create schema must be only call in script
+END
+
+GO
+-- -----------------------------------------------------
+-- drop any existing tables
+-- -----------------------------------------------------
+
+
+
+DROP TABLE IF EXISTS subtypes.listing_image ;
+DROP TABLE IF EXISTS subtypes.watchlist ;
+DROP TABLE IF EXISTS subtypes.thread ;
+DROP TABLE IF EXISTS subtypes.message ;
+DROP TABLE IF EXISTS subtypes.textbook_listing ;
+DROP TABLE IF EXISTS subtypes.electronics_listing ;
+DROP TABLE IF EXISTS subtypes.clothing_listing ;
+DROP TABLE IF EXISTS subtypes.computer_listing ;
+DROP TABLE IF EXISTS subtypes.storage_listing ;
+DROP TABLE IF EXISTS subtypes.phone_listing ;
+DROP TABLE IF EXISTS subtypes.usb_listing ;
+DROP TABLE IF EXISTS subtypes.drive_listing ;
+
+DROP TABLE IF EXISTS subtypes.listing ;
+DROP TABLE IF EXISTS subtypes.category ;
+DROP TABLE IF EXISTS subtypes.[user] ;
 
 GO
 -- -----------------------------------------------------
 -- Table subtypes.user
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS subtypes.[user] ;
 
 CREATE TABLE subtypes.[user] (
   [id] INT NOT NULL IDENTITY(1,1) PRIMARY KEY, --unsigned not supported
@@ -31,7 +51,6 @@ CREATE TABLE subtypes.[user] (
 -- -----------------------------------------------------
 -- Table subtypes.category
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS subtypes.category ;
 
 CREATE TABLE subtypes.category (
   id INT  NOT NULL IDENTITY(1,1) PRIMARY KEY,
@@ -48,7 +67,6 @@ CREATE TABLE subtypes.category (
 -- -----------------------------------------------------
 -- Table subtypes.listing
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS subtypes.listing ;
 
 CREATE TABLE subtypes.listing (
   id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
@@ -75,7 +93,6 @@ CREATE TABLE subtypes.listing (
 -- -----------------------------------------------------
 -- Table subtypes.listing_image
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS subtypes.listing_image ;
 
 CREATE TABLE  subtypes.listing_image (
   id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
@@ -93,14 +110,13 @@ CREATE TABLE  subtypes.listing_image (
 -- -----------------------------------------------------
 -- Table subtypes.watchlist
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS subtypes.watchlist ;
 
 CREATE TABLE subtypes.watchlist (
   user_id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
   listing_id INT NOT NULL,
   watched_since DATETIME NOT NULL,
   INDEX fk_user_has_listing_listing1_idx (listing_id ASC),
-  INDEX fk_user_has_listing_user1_idx (user_id ASC),
+  --INDEX fk_user_has_listing_user1_idx (user_id ASC),
   CONSTRAINT fk_user_has_listing_user1
     FOREIGN KEY (user_id)
     REFERENCES subtypes.[user] (id)
@@ -117,7 +133,6 @@ CREATE TABLE subtypes.watchlist (
 -- -----------------------------------------------------
 -- Table subtypes.thread
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS subtypes.thread ;
 
 CREATE TABLE subtypes.thread (
   id INT NOT NULL  IDENTITY(1,1) PRIMARY KEY,
@@ -143,14 +158,13 @@ CREATE TABLE subtypes.thread (
 -- -----------------------------------------------------
 -- Table subtypes.message
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS subtypes.message ;
 
 CREATE TABLE subtypes.message (
   id INT NOT NULL  IDENTITY(1,1) PRIMARY KEY,
   sender_user_id INT NOT NULL,
   thread_id INT NOT NULL,
   message_text TEXT NOT NULL,
-  send_timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  send_timestamp DATETIME NOT NULL DEFAULT GETUTCDATE(),
   INDEX fk_message_user1_idx (sender_user_id ASC),
   INDEX fk_message_thread1_idx (thread_id ASC),
   CONSTRAINT fk_message_user1
@@ -169,7 +183,6 @@ CREATE TABLE subtypes.message (
 -- -----------------------------------------------------
 -- Table subtypes.textbook_listing
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS subtypes.textbook_listing ;
 
 CREATE TABLE subtypes.textbook_listing (
   listing_id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
@@ -188,7 +201,6 @@ CREATE TABLE subtypes.textbook_listing (
 -- -----------------------------------------------------
 -- Table subtypes.electronics_listing
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS subtypes.electronics_listing ;
 
 CREATE TABLE subtypes.electronics_listing (
   listing_id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
@@ -206,7 +218,6 @@ CREATE TABLE subtypes.electronics_listing (
 -- -----------------------------------------------------
 -- Table subtypes.clothing_listing
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS subtypes.clothing_listing ;
 
 CREATE TABLE subtypes.clothing_listing (
   listing_id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
@@ -223,7 +234,6 @@ CREATE TABLE subtypes.clothing_listing (
 -- -----------------------------------------------------
 -- Table subtypes.computer_listing
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS subtypes.computer_listing ;
 
 CREATE TABLE subtypes.computer_listing (
   listing_id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
@@ -239,7 +249,6 @@ CREATE TABLE subtypes.computer_listing (
 -- -----------------------------------------------------
 -- Table subtypes.storage_listing
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS subtypes.storage_listing ;
 
 CREATE TABLE subtypes.storage_listing (
   listing_id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
@@ -255,7 +264,6 @@ CREATE TABLE subtypes.storage_listing (
 -- -----------------------------------------------------
 -- Table subtypes.phone_listing
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS subtypes.phone_listing ;
 
 CREATE TABLE subtypes.phone_listing (
   listing_id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
@@ -271,7 +279,6 @@ CREATE TABLE subtypes.phone_listing (
 -- -----------------------------------------------------
 -- Table subtypes.usb_listing
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS subtypes.usb_listing ;
 
 CREATE TABLE subtypes.usb_listing (
   listing_id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
@@ -287,7 +294,7 @@ CREATE TABLE subtypes.usb_listing (
 -- -----------------------------------------------------
 -- Table subtypes.drive_listing
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS subtypes.drive_listing ;
+
 
 CREATE TABLE subtypes.drive_listing (
   listing_id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
