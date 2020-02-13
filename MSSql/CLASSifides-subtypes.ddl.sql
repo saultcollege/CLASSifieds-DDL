@@ -16,16 +16,16 @@ GO
 
 DROP TABLE IF EXISTS subtypes.listing_image ;
 DROP TABLE IF EXISTS subtypes.watchlist ;
-
 DROP TABLE IF EXISTS subtypes.message ;
 DROP TABLE IF EXISTS subtypes.textbook_listing ;
-DROP TABLE IF EXISTS subtypes.electronics_listing ;
 DROP TABLE IF EXISTS subtypes.clothing_listing ;
 DROP TABLE IF EXISTS subtypes.computer_listing ;
-DROP TABLE IF EXISTS subtypes.storage_listing ;
 DROP TABLE IF EXISTS subtypes.phone_listing ;
 DROP TABLE IF EXISTS subtypes.usb_listing ;
 DROP TABLE IF EXISTS subtypes.drive_listing ;
+
+DROP TABLE IF EXISTS subtypes.storage_listing ;
+DROP TABLE IF EXISTS subtypes.electronics_listing ;
 
 DROP TABLE IF EXISTS subtypes.thread ;
 DROP TABLE IF EXISTS subtypes.listing ;
@@ -113,7 +113,7 @@ CREATE TABLE  subtypes.listing_image (
 -- -----------------------------------------------------
 
 CREATE TABLE subtypes.watchlist (
-  user_id INT NOT NULL,
+  user_id INT NOT NULL UNIQUE,
   listing_id INT NOT NULL,
   watched_since DATETIME NOT NULL,
   INDEX fk_user_has_listing_listing1_idx (listing_id ASC),
@@ -186,11 +186,10 @@ CREATE TABLE subtypes.message (
 -- -----------------------------------------------------
 
 CREATE TABLE subtypes.textbook_listing (
-  listing_id INT NOT NULL,
+  listing_id INT NOT NULL UNIQUE,
   edition VARCHAR(10) NULL,
   author VARCHAR(100) NULL,
   publisher VARCHAR(50) NULL,
-  INDEX fk_textbook_listing_listing1_idx (listing_id ASC),
   CONSTRAINT fk_textbook_listing_listing1
     FOREIGN KEY (listing_id)
     REFERENCES subtypes.listing (id)
@@ -204,10 +203,9 @@ CREATE TABLE subtypes.textbook_listing (
 -- -----------------------------------------------------
 
 CREATE TABLE subtypes.electronics_listing (
-  listing_id INT NOT NULL,
+  listing_id INT NOT NULL UNIQUE,
   make VARCHAR(50) NULL,
   model VARCHAR(50) NULL,
-  INDEX fk_textbook_listing_listing1_idx (listing_id ASC),
   CONSTRAINT fk_textbook_listing_listing10
     FOREIGN KEY (listing_id)
     REFERENCES subtypes.listing (id)
@@ -221,9 +219,8 @@ CREATE TABLE subtypes.electronics_listing (
 -- -----------------------------------------------------
 
 CREATE TABLE subtypes.clothing_listing (
-  listing_id INT NOT NULL,
+  listing_id INT NOT NULL UNIQUE,
   size VARCHAR(20) NULL,
-  INDEX fk_textbook_listing_listing1_idx (listing_id ASC),
   CONSTRAINT fk_textbook_listing_listing11
     FOREIGN KEY (listing_id)
     REFERENCES subtypes.listing (id)
@@ -237,11 +234,11 @@ CREATE TABLE subtypes.clothing_listing (
 -- -----------------------------------------------------
 
 CREATE TABLE subtypes.computer_listing (
-  listing_id INT NOT NULL,
+  listing_id INT NOT NULL UNIQUE,
   processor VARCHAR(50) NULL,
   CONSTRAINT fk_textbook_listing_listing100
     FOREIGN KEY (listing_id)
-    REFERENCES subtypes.listing (id)
+    REFERENCES subtypes.electronics_listing (listing_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 
@@ -252,11 +249,11 @@ CREATE TABLE subtypes.computer_listing (
 -- -----------------------------------------------------
 
 CREATE TABLE subtypes.storage_listing (
-  listing_id INT NOT NULL ,
+  listing_id INT NOT NULL UNIQUE,
   space VARCHAR(50) NULL,
   CONSTRAINT fk_textbook_listing_listing1000
     FOREIGN KEY (listing_id)
-    REFERENCES subtypes.listing (id)
+    REFERENCES subtypes.electronics_listing (listing_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 
@@ -267,11 +264,11 @@ CREATE TABLE subtypes.storage_listing (
 -- -----------------------------------------------------
 
 CREATE TABLE subtypes.phone_listing (
-  listing_id INT NOT NULL,
+  listing_id INT NOT NULL UNIQUE,
   screen_size VARCHAR(50) NULL,
   CONSTRAINT fk_textbook_listing_listing10000
     FOREIGN KEY (listing_id)
-    REFERENCES subtypes.listing (id)
+    REFERENCES subtypes.electronics_listing (listing_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 
@@ -282,11 +279,11 @@ CREATE TABLE subtypes.phone_listing (
 -- -----------------------------------------------------
 
 CREATE TABLE subtypes.usb_listing (
-  listing_id INT NOT NULL,
+  listing_id INT NOT NULL UNIQUE,
   space VARCHAR(50) NULL,
   CONSTRAINT fk_textbook_listing_listing10001
     FOREIGN KEY (listing_id)
-    REFERENCES subtypes.listing (id)
+    REFERENCES subtypes.storage_listing (listing_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 
@@ -298,11 +295,11 @@ CREATE TABLE subtypes.usb_listing (
 
 
 CREATE TABLE subtypes.drive_listing (
-  listing_id INT NOT NULL ,
+  listing_id INT NOT NULL UNIQUE,
   ssd_hdd VARCHAR(50) NULL,
   CONSTRAINT fk_textbook_listing_listing100010
     FOREIGN KEY (listing_id)
-    REFERENCES subtypes.listing (id)
+    REFERENCES subtypes.storage_listing (listing_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 
