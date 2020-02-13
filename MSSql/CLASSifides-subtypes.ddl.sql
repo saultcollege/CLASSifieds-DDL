@@ -116,7 +116,7 @@ CREATE TABLE subtypes.watchlist (
   listing_id INT NOT NULL,
   watched_since DATETIME NOT NULL,
   INDEX fk_user_has_listing_listing1_idx (listing_id ASC),
-  --INDEX fk_user_has_listing_user1_idx (user_id ASC),
+  INDEX fk_user_has_listing_user1_idx (user_id ASC),
   CONSTRAINT fk_user_has_listing_user1
     FOREIGN KEY (user_id)
     REFERENCES subtypes.[user] (id)
