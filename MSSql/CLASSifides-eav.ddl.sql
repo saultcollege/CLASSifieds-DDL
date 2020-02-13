@@ -1,10 +1,10 @@
 -- -----------------------------------------------------
--- Schema subtypes
+-- Schema eav
 -- -----------------------------------------------------
 GO
-IF NOT EXISTS (SELECT name FROM sys.schemas WHERE name = N'subtypes')
+IF NOT EXISTS (SELECT name FROM sys.schemas WHERE name = N'eav')
 BEGIN
-	EXEC sp_executesql N'CREATE SCHEMA subtypes' --Create schema must be only call in script
+	EXEC sp_executesql N'CREATE SCHEMA eav' --Create schema must be only call in script
 END
 
 GO
@@ -14,30 +14,21 @@ GO
 
 
 
-DROP TABLE IF EXISTS subtypes.listing_image ;
-DROP TABLE IF EXISTS subtypes.watchlist ;
-DROP TABLE IF EXISTS subtypes.message ;
-DROP TABLE IF EXISTS subtypes.textbook_listing ;
-DROP TABLE IF EXISTS subtypes.clothing_listing ;
-DROP TABLE IF EXISTS subtypes.computer_listing ;
-DROP TABLE IF EXISTS subtypes.phone_listing ;
-DROP TABLE IF EXISTS subtypes.usb_listing ;
-DROP TABLE IF EXISTS subtypes.drive_listing ;
+DROP TABLE IF EXISTS eav.listing_image ;
+DROP TABLE IF EXISTS eav.watchlist ;
+DROP TABLE IF EXISTS eav.message ;
 
-DROP TABLE IF EXISTS subtypes.storage_listing ;
-DROP TABLE IF EXISTS subtypes.electronics_listing ;
-
-DROP TABLE IF EXISTS subtypes.thread ;
-DROP TABLE IF EXISTS subtypes.listing ;
-DROP TABLE IF EXISTS subtypes.category ;
-DROP TABLE IF EXISTS subtypes.[user] ;
+DROP TABLE IF EXISTS eav.thread ;
+DROP TABLE IF EXISTS eav.listing ;
+DROP TABLE IF EXISTS eav.category ;
+DROP TABLE IF EXISTS eav.[user] ;
 
 GO
 -- -----------------------------------------------------
--- Table subtypes.user
+-- Table eav.user
 -- -----------------------------------------------------
 
-CREATE TABLE subtypes.[user] (
+CREATE TABLE eav.[user] (
   [id] INT NOT NULL IDENTITY(1,1) PRIMARY KEY, --unsigned not supported
   [first_name] VARCHAR(45) NOT NULL,
   [last_name] VARCHAR(45) NOT NULL,
@@ -50,10 +41,10 @@ CREATE TABLE subtypes.[user] (
 
 
 -- -----------------------------------------------------
--- Table subtypes.category
+-- Table eav.category
 -- -----------------------------------------------------
 
-CREATE TABLE subtypes.category (
+CREATE TABLE eav.category (
   id INT  NOT NULL IDENTITY(1,1) PRIMARY KEY,
   parent_category_id INT NULL,
   name VARCHAR(32) NOT NULL,
@@ -61,15 +52,15 @@ CREATE TABLE subtypes.category (
   INDEX fk_category_category1_idx (parent_category_id ASC),
   CONSTRAINT fk_category_category1
     FOREIGN KEY (parent_category_id)
-    REFERENCES subtypes.category (id)
+    REFERENCES eav.category (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 
 -- -----------------------------------------------------
--- Table subtypes.listing
+-- Table eav.listing
 -- -----------------------------------------------------
 
-CREATE TABLE subtypes.listing (
+CREATE TABLE eav.listing (
   id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
   user_id INT NOT NULL,
   category_id INT NOT NULL,
@@ -80,39 +71,39 @@ CREATE TABLE subtypes.listing (
   INDEX fk_listing_category1_idx (category_id ASC),
   CONSTRAINT fk_listing_user
     FOREIGN KEY (user_id)
-    REFERENCES subtypes.[user] (id)
+    REFERENCES eav.[user] (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT fk_listing_category1
     FOREIGN KEY (category_id)
-    REFERENCES subtypes.category (id)
+    REFERENCES eav.category (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 
 
 
 -- -----------------------------------------------------
--- Table subtypes.listing_image
+-- Table eav.listing_image
 -- -----------------------------------------------------
 
-CREATE TABLE  subtypes.listing_image (
+CREATE TABLE  eav.listing_image (
   id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
   listing_id INT NOT NULL,
   path VARCHAR(256) NULL,
   INDEX fk_listing_image_listing1_idx (listing_id ASC),
   CONSTRAINT fk_listing_image_listing1
     FOREIGN KEY (listing_id)
-    REFERENCES subtypes.listing (id)
+    REFERENCES eav.listing (id)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 
 
 
 -- -----------------------------------------------------
--- Table subtypes.watchlist
+-- Table eav.watchlist
 -- -----------------------------------------------------
 
-CREATE TABLE subtypes.watchlist (
+CREATE TABLE eav.watchlist (
   user_id INT NOT NULL UNIQUE,
   listing_id INT NOT NULL,
   watched_since DATETIME NOT NULL,
@@ -120,22 +111,22 @@ CREATE TABLE subtypes.watchlist (
   INDEX fk_user_has_listing_user1_idx (user_id ASC),
   CONSTRAINT fk_user_has_listing_user1
     FOREIGN KEY (user_id)
-    REFERENCES subtypes.[user] (id)
+    REFERENCES eav.[user] (id)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT fk_user_has_listing_listing1
     FOREIGN KEY (listing_id)
-    REFERENCES subtypes.listing (id)
+    REFERENCES eav.listing (id)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 
 
 
 -- -----------------------------------------------------
--- Table subtypes.thread
+-- Table eav.thread
 -- -----------------------------------------------------
 
-CREATE TABLE subtypes.thread (
+CREATE TABLE eav.thread (
   id INT NOT NULL  IDENTITY(1,1) PRIMARY KEY,
   buyer_user_id INT NOT NULL,
   listing_id INT NOT NULL,
@@ -145,22 +136,22 @@ CREATE TABLE subtypes.thread (
   INDEX fk_thread_listing1_idx (listing_id ASC),
   CONSTRAINT fk_thread_user1
     FOREIGN KEY (buyer_user_id)
-    REFERENCES subtypes.[user] (id)
+    REFERENCES eav.[user] (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT fk_thread_listing1
     FOREIGN KEY (listing_id)
-    REFERENCES subtypes.listing (id)
+    REFERENCES eav.listing (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 
 
 
 -- -----------------------------------------------------
--- Table subtypes.message
+-- Table eav.message
 -- -----------------------------------------------------
 
-CREATE TABLE subtypes.message (
+CREATE TABLE eav.message (
   id INT NOT NULL  IDENTITY(1,1) PRIMARY KEY,
   sender_user_id INT NOT NULL,
   thread_id INT NOT NULL,
@@ -170,137 +161,51 @@ CREATE TABLE subtypes.message (
   INDEX fk_message_thread1_idx (thread_id ASC),
   CONSTRAINT fk_message_user1
     FOREIGN KEY (sender_user_id)
-    REFERENCES subtypes.[user] (id)
+    REFERENCES eav.[user] (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT fk_message_thread1
     FOREIGN KEY (thread_id)
-    REFERENCES subtypes.thread (id)
+    REFERENCES eav.thread (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 
 
 
 -- -----------------------------------------------------
--- Table subtypes.textbook_listing
+-- Table CLASSifieds-EAV.attribute
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS CLASSifieds-EAV.attribute ;
 
-CREATE TABLE subtypes.textbook_listing (
-  listing_id INT NOT NULL UNIQUE,
-  edition VARCHAR(10) NULL,
-  author VARCHAR(100) NULL,
-  publisher VARCHAR(50) NULL,
-  CONSTRAINT fk_textbook_listing_listing1
+CREATE TABLE IF NOT EXISTS CLASSifieds-EAV.attribute (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  name VARCHAR(50) NOT NULL,
+  description VARCHAR(500) NOT NULL,
+  PRIMARY KEY (id),
+  UNIQUE INDEX name_UNIQUE (name ASC))
+
+
+
+-- -----------------------------------------------------
+-- Table CLASSifieds-EAV.listing_attributes
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS CLASSifieds-EAV.listing_attributes ;
+
+CREATE TABLE IF NOT EXISTS CLASSifieds-EAV.listing_attributes (
+  listing_id INT UNSIGNED NOT NULL,
+  attribute_id INT UNSIGNED NOT NULL,
+  value VARCHAR(1000) NOT NULL,
+  PRIMARY KEY (listing_id, attribute_id),
+  INDEX fk_listing_attributes_attribute1_idx (attribute_id ASC),
+  CONSTRAINT fk_listing_attributes_listing1
     FOREIGN KEY (listing_id)
-    REFERENCES subtypes.listing (id)
+    REFERENCES CLASSifieds-EAV.listing (id)
     ON DELETE CASCADE
-    ON UPDATE CASCADE)
-
-
-
--- -----------------------------------------------------
--- Table subtypes.electronics_listing
--- -----------------------------------------------------
-
-CREATE TABLE subtypes.electronics_listing (
-  listing_id INT NOT NULL UNIQUE,
-  make VARCHAR(50) NULL,
-  model VARCHAR(50) NULL,
-  CONSTRAINT fk_textbook_listing_listing10
-    FOREIGN KEY (listing_id)
-    REFERENCES subtypes.listing (id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-
-
-
--- -----------------------------------------------------
--- Table subtypes.clothing_listing
--- -----------------------------------------------------
-
-CREATE TABLE subtypes.clothing_listing (
-  listing_id INT NOT NULL UNIQUE,
-  size VARCHAR(20) NULL,
-  CONSTRAINT fk_textbook_listing_listing11
-    FOREIGN KEY (listing_id)
-    REFERENCES subtypes.listing (id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-
-
-
--- -----------------------------------------------------
--- Table subtypes.computer_listing
--- -----------------------------------------------------
-
-CREATE TABLE subtypes.computer_listing (
-  listing_id INT NOT NULL UNIQUE,
-  processor VARCHAR(50) NULL,
-  CONSTRAINT fk_textbook_listing_listing100
-    FOREIGN KEY (listing_id)
-    REFERENCES subtypes.electronics_listing (listing_id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-
-
-
--- -----------------------------------------------------
--- Table subtypes.storage_listing
--- -----------------------------------------------------
-
-CREATE TABLE subtypes.storage_listing (
-  listing_id INT NOT NULL UNIQUE,
-  space VARCHAR(50) NULL,
-  CONSTRAINT fk_textbook_listing_listing1000
-    FOREIGN KEY (listing_id)
-    REFERENCES subtypes.electronics_listing (listing_id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-
-
-
--- -----------------------------------------------------
--- Table subtypes.phone_listing
--- -----------------------------------------------------
-
-CREATE TABLE subtypes.phone_listing (
-  listing_id INT NOT NULL UNIQUE,
-  screen_size VARCHAR(50) NULL,
-  CONSTRAINT fk_textbook_listing_listing10000
-    FOREIGN KEY (listing_id)
-    REFERENCES subtypes.electronics_listing (listing_id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-
-
-
--- -----------------------------------------------------
--- Table subtypes.usb_listing
--- -----------------------------------------------------
-
-CREATE TABLE subtypes.usb_listing (
-  listing_id INT NOT NULL UNIQUE,
-  space VARCHAR(50) NULL,
-  CONSTRAINT fk_textbook_listing_listing10001
-    FOREIGN KEY (listing_id)
-    REFERENCES subtypes.storage_listing (listing_id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-
-
-
--- -----------------------------------------------------
--- Table subtypes.drive_listing
--- -----------------------------------------------------
-
-
-CREATE TABLE subtypes.drive_listing (
-  listing_id INT NOT NULL UNIQUE,
-  ssd_hdd VARCHAR(50) NULL,
-  CONSTRAINT fk_textbook_listing_listing100010
-    FOREIGN KEY (listing_id)
-    REFERENCES subtypes.storage_listing (listing_id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
+    ON UPDATE CASCADE,
+  CONSTRAINT fk_listing_attributes_attribute1
+    FOREIGN KEY (attribute_id)
+    REFERENCES CLASSifieds-EAV.attribute (id)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 
 
